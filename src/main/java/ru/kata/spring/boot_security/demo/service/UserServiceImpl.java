@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByUsername(username);
         if (user == null) {
@@ -35,11 +36,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return repository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserById(int id) {
         return repository.findById(id).get();
     }

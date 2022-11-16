@@ -23,7 +23,7 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "id_user"),
@@ -78,6 +78,10 @@ public class User implements UserDetails {
 
     public int getId() {
         return id;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 
     public void setId(int id) {

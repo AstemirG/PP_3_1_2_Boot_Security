@@ -1,22 +1,30 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
     private final UserService service;
+    private final RoleRepository repository;
+    private final PasswordEncoder encoder;
 
     @Autowired
-    public AdminController(UserService service) {
+    public AdminController(UserService service, RoleRepository repository, RoleRepository repository1, PasswordEncoder encoder) {
         this.service = service;
+        this.repository = repository1;
+        this.encoder = encoder;
     }
 
     @GetMapping(value = "/all")
@@ -34,8 +42,12 @@ public class AdminController {
 
     @PostMapping()
     public String createUser(@ModelAttribute("user") User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        List<Role> roleList = new ArrayList<>();
+        roleList.add(repository.getById(1));
+        user.setRoles(roleList);
         service.saveUser(user);
-        return "redirect:/users/all";
+        return "redirect:/admin/all";
     }
 
     @GetMapping("/{id}/edit")
@@ -47,14 +59,15 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
                          @PathVariable("id") int id) {
+        user.setPassword(encoder.encode(user.getPassword()));
         service.updateUser(id,user);
-        return "redirect:/users/all";
+        return "redirect:/admin/all";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@ModelAttribute("user") User user,
                          @PathVariable("id") int id) {
         service.deleteUser(id);
-        return "redirect:/users/all";
+        return "redirect:/admin/all";
     }
 }

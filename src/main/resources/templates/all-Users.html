@@ -14,15 +14,20 @@
       <th>ID</th>
       <th>First Name</th>
       <th>Last Name</th>
+      <th>Username</th>
+      <th>Password</th>
       <th>Edit</th>
+
     </tr>
     <tr th:each ="person : ${allUsers}">
       <td th:utext="${person.getId()}">...</td>
       <td th:utext="${person.getFirstName()}">...</td>
       <td th:utext="${person.getLastName()}">...</td>
+      <td th:utext="${person.getUsername()}">...</td>
+      <td th:utext="${person.getPassword()}">...</td>
       <td>
-        <a th:href="@{/users/{id}/edit (id=${person.getId()})}">edit</a>
-        <form th:method="DELETE" th:action="@{/users/{id}(id=${person.getId()})}">
+        <a th:href="@{/admin/{id}/edit (id=${person.getId()})}">edit</a>
+        <form th:method="DELETE" th:action="@{/admin/{id}(id=${person.getId()})}">
           <input type="submit" value="Delete"/>
         </form>
 
@@ -33,6 +38,8 @@
 </div>
 
   <a href="new">Add User</a>
+  <br/><br/>
+  <a href="/logout">Logout</a>
   <br/><br/>
 
 
