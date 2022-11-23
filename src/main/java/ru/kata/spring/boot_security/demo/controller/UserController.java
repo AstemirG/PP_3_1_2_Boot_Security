@@ -24,4 +24,10 @@ public class UserController {
         model.addAttribute("user",service.loadUserByUsername(principal.getName()));
         return "user";
     }
+
+    @GetMapping("/test")
+    public String test() {
+
+        return "test";
+    }
 }

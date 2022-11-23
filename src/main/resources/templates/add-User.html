@@ -19,6 +19,9 @@
     <label for="password">Enter password: </label>
     <input type="text" th:field="*{password}" id="password">
     <br/>
+  <label for="role">Enter role: </label>
+  <input type="text" th:field="*{roles[0].role}" id="role">
+  <br/>
   <input type="submit" value="Create" />
 </form>
 
